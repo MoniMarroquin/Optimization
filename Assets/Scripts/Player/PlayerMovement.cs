@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
-
+using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
 	public float speed = 6f;
+	public InputAction Player_Controls;
 
 	private Vector3 movement;
 	private Animator anim;
@@ -19,20 +20,21 @@ public class PlayerMovement : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		float h = Input.GetAxisRaw("Horizontal");
-		float v = Input.GetAxisRaw("Vertical");
+		//float h = Input.GetAxisRaw("Horizontal");
+		//float v = Input.GetAxisRaw("Vertical");
 
-		Move(h, v);
-		Turning();
-		Animating(h, v);
+		//Move(h, v);
+		//Turning();
+		//Animating(h, v);
 	}
 
 	void Move(float h, float v)
 	{
-		movement.Set(h, 0f, v);
-		movement = movement.normalized * speed * Time.deltaTime;
+		//movement.Set(h, 0f, v);
+		//movement = movement.normalized * speed * Time.deltaTime;
 
-		playerRigidbody.MovePosition(transform.position + movement);
+		//playerRigidbody.MovePosition(transform.position + movement);
+		movement = Player_Controls.ReadValue<Vector3>();
 	}
 
 	void Turning()
@@ -55,4 +57,12 @@ public class PlayerMovement : MonoBehaviour
 
 		anim.SetBool("IsWalking", walking);
 	}
+    private void OnEnable()
+    {
+        Player_Controls.Enable();
+    }
+    private void OnDisable()
+    {
+        Player_Controls.Disable(); 
+    }
 }
